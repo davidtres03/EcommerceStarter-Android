@@ -1,6 +1,7 @@
 package com.ecommercestarter.admin.di
 
 import com.ecommercestarter.admin.data.api.AuthApiService
+import com.ecommercestarter.admin.data.api.BrandingApiService
 import com.ecommercestarter.admin.data.preferences.UserPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -21,7 +22,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    
+
     @Provides
     @Singleton
     fun provideGson(): Gson {
@@ -29,22 +30,22 @@ object NetworkModule {
             .setLenient()
             .create()
     }
-    
+
     @Provides
     @Singleton
     fun provideAuthInterceptor(userPreferences: UserPreferences): Interceptor {
         return Interceptor { chain ->
             val token = runBlocking { userPreferences.authToken.first() }
             val request = chain.request().newBuilder()
-            
+
             if (!token.isNullOrEmpty()) {
                 request.addHeader("Authorization", "Bearer $token")
             }
-            
+
             chain.proceed(request.build())
         }
     }
-    
+
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
@@ -52,7 +53,7 @@ object NetworkModule {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
-    
+
     @Provides
     @Singleton
     fun provideOkHttpClient(
@@ -67,7 +68,7 @@ object NetworkModule {
             .writeTimeout(30, TimeUnit.SECONDS)
             .build()
     }
-    
+
     @Provides
     @Singleton
     fun provideRetrofit(
@@ -76,20 +77,26 @@ object NetworkModule {
         userPreferences: UserPreferences
     ): Retrofit {
         // Get base URL from preferences, fallback to default
-        val baseUrl = runBlocking { 
+        val baseUrl = runBlocking {
             userPreferences.serverUrl.first() ?: "http://localhost:5000/"
         }
-        
+
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
-    
+
     @Provides
     @Singleton
     fun provideAuthApiService(retrofit: Retrofit): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBrandingApiService(retrofit: Retrofit): BrandingApiService {
+        return retrofit.create(BrandingApiService::class.java)
     }
 }

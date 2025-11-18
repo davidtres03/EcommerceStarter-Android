@@ -30,7 +30,6 @@ class AuthRepositoryImpl @Inject constructor(
                 val token = body.token ?: return Result.failure(Exception("No token received"))
                 val userDto = body.user ?: return Result.failure(Exception("No user data received"))
                 
-                // Save to preferences
                 userPreferences.saveAuthToken(token)
                 userPreferences.saveUserData(userDto)
                 
@@ -52,7 +51,7 @@ class AuthRepositoryImpl @Inject constructor(
             userPreferences.clearAll()
             Result.success(Unit)
         } catch (e: Exception) {
-            userPreferences.clearAll() // Clear local data anyway
+            userPreferences.clearAll()
             Result.failure(e)
         }
     }
