@@ -29,6 +29,7 @@ fun ServerConfigScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .statusBarsPadding()
             .padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -41,13 +42,13 @@ fun ServerConfigScreen(
                 imageVector = Icons.Default.Settings,
                 contentDescription = "Settings",
                 modifier = Modifier.size(64.dp),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onSurface
             )
             
             Text(
                 text = "Configure Server",
                 style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onSurface
             )
             
             Text(

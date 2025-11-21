@@ -43,24 +43,60 @@ fun BrandingConfig.toColorScheme(darkTheme: Boolean = false): ColorScheme {
     val primary = primaryColor.toComposeColor()
     val secondary = secondaryColor.toComposeColor()
     val tertiary = accentColor.toComposeColor()
-    val background = backgroundColor.toComposeColor()
-    val surface = surfaceColor.toComposeColor()
     
     return if (darkTheme) {
         darkColorScheme(
             primary = primary,
+            onPrimary = Color.White,
+            primaryContainer = primary.copy(alpha = 0.3f),
+            onPrimaryContainer = Color.White,
+            
             secondary = secondary,
+            onSecondary = Color.White,
+            secondaryContainer = secondary.copy(alpha = 0.3f),
+            onSecondaryContainer = Color.White,
+            
             tertiary = tertiary,
-            background = background,
-            surface = surface
+            onTertiary = Color.White,
+            tertiaryContainer = tertiary.copy(alpha = 0.3f),
+            onTertiaryContainer = Color.White,
+            
+            background = Color(0xFF1C1B1F),
+            onBackground = Color(0xFFE6E1E5),
+            
+            surface = Color(0xFF2B2930),
+            onSurface = Color(0xFFE6E1E5),
+            surfaceVariant = Color(0xFF49454F),
+            onSurfaceVariant = Color(0xFFCAC4D0),
+            
+            outline = Color(0xFF938F99)
         )
     } else {
         lightColorScheme(
             primary = primary,
+            onPrimary = Color.White,
+            primaryContainer = primary.copy(alpha = 0.15f),
+            onPrimaryContainer = primary.copy(red = primary.red * 0.3f, green = primary.green * 0.3f, blue = primary.blue * 0.3f),
+            
             secondary = secondary,
+            onSecondary = Color.White,
+            secondaryContainer = secondary.copy(alpha = 0.15f),
+            onSecondaryContainer = secondary.copy(red = secondary.red * 0.3f, green = secondary.green * 0.3f, blue = secondary.blue * 0.3f),
+            
             tertiary = tertiary,
-            background = background,
-            surface = surface
+            onTertiary = Color.White,
+            tertiaryContainer = tertiary.copy(alpha = 0.15f),
+            onTertiaryContainer = tertiary.copy(red = tertiary.red * 0.3f, green = tertiary.green * 0.3f, blue = tertiary.blue * 0.3f),
+            
+            background = Color(0xFFFCFCFC),
+            onBackground = Color(0xFF1C1B1F),
+            
+            surface = Color.White,
+            onSurface = Color(0xFF1C1B1F),
+            surfaceVariant = Color(0xFFE7E0EC),
+            onSurfaceVariant = Color(0xFF49454F),
+            
+            outline = Color(0xFF79747E)
         )
     }
 }

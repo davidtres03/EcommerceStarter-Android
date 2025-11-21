@@ -15,9 +15,14 @@ interface AuthApiService {
         @Body request: LoginRequest
     ): Response<LoginResponse>
     
+    @POST("api/auth/refresh")
+    suspend fun refreshToken(
+        @Body request: RefreshTokenRequest
+    ): Response<LoginResponse>
+    
     @POST("api/auth/logout")
     suspend fun logout(
-        @Header("Authorization") token: String
+        @Body request: LogoutRequest
     ): Response<Unit>
     
     @GET("api/auth/me")
@@ -25,3 +30,12 @@ interface AuthApiService {
         @Header("Authorization") token: String
     ): Response<LoginResponse>
 }
+
+data class RefreshTokenRequest(
+    val accessToken: String,
+    val refreshToken: String
+)
+
+data class LogoutRequest(
+    val refreshToken: String
+)

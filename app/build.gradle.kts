@@ -115,6 +115,9 @@ dependencies {
     // DataStore - Preferences
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     
+    // Biometric Authentication
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+    
     // Coil - Image Loading
     implementation("io.coil-kt:coil-compose:2.7.0")
     

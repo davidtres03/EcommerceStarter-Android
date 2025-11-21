@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import android.util.Log
 import java.net.URL
 import javax.inject.Inject
 
@@ -69,19 +70,25 @@ class ServerConfigViewModel @Inject constructor(
 
             try {
                 val normalizedUrl = normalizeUrl(url)
+                Log.d("ServerConfig", "Saving server URL: $normalizedUrl")
                 userPreferences.saveServerUrl(normalizedUrl)
                 
                 // Fetch branding configuration from server
                 _configState.value = ServerConfigState.LoadingBranding
+                Log.d("ServerConfig", "Fetching branding from server...")
                 val brandingResult = brandingRepository.fetchAndCacheBranding()
                 
                 if (brandingResult.isSuccess) {
+                    Log.d("ServerConfig", "Branding fetched successfully: ${brandingResult.getOrNull()}")
                     _configState.value = ServerConfigState.Success
                 } else {
+                    val error = brandingResult.exceptionOrNull()
+                    Log.e("ServerConfig", "Failed to fetch branding: ${error?.message}", error)
                     // Still succeed even if branding fetch fails (will use defaults)
                     _configState.value = ServerConfigState.Success
                 }
             } catch (e: Exception) {
+                Log.e("ServerConfig", "Error saving server URL: ${e.message}", e)
                 _configState.value = ServerConfigState.Error("Failed to save: ${e.message}")
             }
         }

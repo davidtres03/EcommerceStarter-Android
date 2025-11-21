@@ -9,6 +9,12 @@ data class LoginResponse(
     @SerializedName("token")
     val token: String?,
     
+    @SerializedName("refreshToken")
+    val refreshToken: String?,
+    
+    @SerializedName("expiresIn")
+    val expiresIn: Int?,
+    
     @SerializedName("user")
     val user: UserDto?,
     
